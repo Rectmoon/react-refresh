@@ -1,5 +1,4 @@
 const path = require('path')
-const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
@@ -42,29 +41,29 @@ module.exports = merge(baseConfig, {
           req.headers.aaa = '666'
         }
       }
-    }
+    },
 
-    // historyApiFallback: {
-    //   /**
-    //    * @example
-    //    * /rainbow/web => /rainbow/web.html
-    //    * /rainbow/admin => /rainbow/admin.html
-    //    */
-    //   rewrites: Object.keys(baseConfig.entry)
-    //     .map(entry => {
-    //       const route = `${publicPath}${entry}`
-    //       return {
-    //         from: new RegExp(`^${route}$`),
-    //         to: `${route}.html`
-    //       }
-    //     })
-    //     .concat([
-    //       {
-    //         from: /.*/,
-    //         to: path.posix.join(publicPath, 'index.html')
-    //       }
-    //     ])
-    // }
+    historyApiFallback: {
+      /**
+       * @example
+       * /rainbow/web => /rainbow/web.html
+       * /rainbow/admin => /rainbow/admin.html
+       */
+      rewrites: Object.keys(baseConfig.entry)
+        .map(entry => {
+          const route = `${publicPath}${entry}`
+          return {
+            from: new RegExp(`^${route}$`),
+            to: `${route}.html`
+          }
+        })
+        .concat([
+          {
+            from: /.*/,
+            to: path.posix.join(publicPath, 'index.html')
+          }
+        ])
+    }
   },
 
   devtool: 'inline-source-map',

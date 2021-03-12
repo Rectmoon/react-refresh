@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const { resolve, assetsPath, getEntries, getHtmlPlugins } = require('./utils')
@@ -35,11 +34,6 @@ const localCssHandlers = globalCssHandlers.map((handler, i) =>
 module.exports = {
   entry: getEntries(),
 
-  // entry: {
-  //   main: './src/entries/calendar/index.js',
-  //   vendors: ['react', 'react-dom', 'react-refresh/runtime']
-  // },
-
   output: {
     filename: '[name].js'
   },
@@ -58,51 +52,50 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: [{ loader: 'babel-loader', options: {} }]
+      },
+      {
+        test: /\.css$/,
+        include: [/node_modules/, resolve('src/assets/styles')],
+        use: [...globalCssHandlers]
+      },
+
+      {
+        test: /\.css$/,
+        exclude: [/node_modules/, resolve('src/assets/styles')],
+        use: [...localCssHandlers]
+      },
+
+      {
+        test: /\.less?$/,
+        include: [/node_modules/, resolve('src/assets/styles')],
+        use: [...globalCssHandlers, 'less-loader']
+      },
+
+      {
+        test: /\.less?$/,
+        exclude: [/node_modules/, resolve('src/assets/styles')],
+        use: [...localCssHandlers, 'less-loader']
+      },
+
+      {
+        test: /\.(woff|woff2|eot|ttf|otf|htc)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            limit: 4096,
+            name: assetsPath('fonts/[name].[hash:6].[ext]')
+          }
+        }
+      },
+
+      {
+        test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+        loader: 'url-loader',
+        options: {
+          limit: 1000,
+          name: assetsPath('images/[name].[hash:6].[ext]')
+        }
       }
-
-      // {
-      //   test: /\.css$/,
-      //   include: [/node_modules/, resolve('src/assets/styles')],
-      //   use: [...globalCssHandlers]
-      // },
-
-      // {
-      //   test: /\.css$/,
-      //   exclude: [/node_modules/, resolve('src/assets/styles')],
-      //   use: [...localCssHandlers]
-      // },
-
-      // {
-      //   test: /\.less?$/,
-      //   include: [/node_modules/, resolve('src/assets/styles')],
-      //   use: [...globalCssHandlers, 'less-loader']
-      // },
-
-      // {
-      //   test: /\.less?$/,
-      //   exclude: [/node_modules/, resolve('src/assets/styles')],
-      //   use: [...localCssHandlers, 'less-loader']
-      // },
-
-      // {
-      //   test: /\.(woff|woff2|eot|ttf|otf|htc)$/,
-      //   use: {
-      //     loader: 'file-loader',
-      //     options: {
-      //       limit: 4096,
-      //       name: assetsPath('fonts/[name].[hash:6].[ext]')
-      //     }
-      //   }
-      // },
-
-      // {
-      //   test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
-      //   loader: 'url-loader',
-      //   options: {
-      //     limit: 1000,
-      //     name: assetsPath('images/[name].[hash:6].[ext]')
-      //   }
-      // }
     ]
   },
 

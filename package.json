@@ -10,7 +10,7 @@
     "dll": "webpack --config ./build/webpack.dll.config.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rectmoon",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.13.10",

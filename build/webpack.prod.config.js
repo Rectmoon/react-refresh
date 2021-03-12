@@ -2,7 +2,7 @@ const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const DllReferencePlugin = require('webpack/lib/DllReferencePlugin')
+// const DllReferencePlugin = require('webpack/lib/DllReferencePlugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
