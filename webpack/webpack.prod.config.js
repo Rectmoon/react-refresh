@@ -39,16 +39,12 @@ module.exports = merge(baseConfig, {
       verbose: true
     }),
 
-    // new DllReferencePlugin({
-    //   context: __dirname,
-    //   manifest: require('../static/js/dll/rc_manifest.json')
-    // }),
-
     new CopyWebpackPlugin(
-      Object.keys(config.externals).map(vendor => ({
-        from: `node_modules/${vendor}/dist`,
+      config.externals.map(({ from }) => ({
+        from,
         to: `${config.assetsSubDirectory}/js/vendors`,
-        ignore: ['!*.min.js']
+        ignore: ['!*?(.production).min.js', '*.test.*'],
+        flatten: true
       }))
     ),
 
@@ -57,23 +53,29 @@ module.exports = merge(baseConfig, {
       chunkFilename: assetsPath('css/[id].[contenthash:6].css')
     }),
 
-    new webpack.BannerPlugin({
-      banner: [
-        `@project: ${name}`,
-        `@author: ${author}`,
-        `@date: ${new Date()}`,
-        `@description: ${description}`,
-        `@version: ${version}`
-      ].join('\n'),
-      entryOnly: true,
-      exclude: /manifest|polyfill|styles/
-    }),
+    // new webpack.BannerPlugin({
+    //   banner: [
+    //     `@project: ${name}`,
+    //     `@author: ${author}`,
+    //     `@date: ${new Date()}`,
+    //     `@description: ${description}`,
+    //     `@version: ${version}`
+    //   ].join('\n'),
+    //   entryOnly: true,
+    //   exclude: /manifest|polyfill|styles/
+    // }),
 
     /**
      *  第一种方式：
      * 使用dll预打包
      * { filepath: resolve('static/dll/*_dll.js') }
      *
+     * 
+      // new DllReferencePlugin({
+      //   context: __dirname,
+      //   manifest: require('../static/js/dll/rc_manifest.json')
+      // }),
+     * 
      *  第二种方式
      *  配置 externals, 并在html直接引入 polyfill.min.js, react.min.js, react-dom.min.js
      *  externals: {
@@ -102,24 +104,26 @@ module.exports = merge(baseConfig, {
        *  publicPath: false
        *  append: false
        */
-      scripts: Object.entries(config.externals).map(
-        ([packageName, variableName]) => ({
-          path: `${config.assetsSubDirectory}/js/vendors/${packageName}.min.js`,
-          external: {
-            packageName,
-            variableName
-          },
-          attributes: {
-            type: 'text/javascript'
-          }
-        })
-      )
+      tags: [],
+      scripts: config.externals.map(({ packageName, variableName, to }) => ({
+        path: to,
+        external: {
+          packageName,
+          variableName
+        },
+        attributes: {
+          type: 'text/javascript'
+        }
+      }))
     }),
 
     config.report && new BundleAnalyzerPlugin()
   ].filter(Boolean),
 
-  externals: config.externals,
+  externals: config.externals.reduce((acc, next) => {
+    acc[next.packageName] = next.variableName
+    return acc
+  }, {}),
 
   optimization: {
     moduleIds: 'hashed',
