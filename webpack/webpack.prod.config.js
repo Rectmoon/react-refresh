@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
-
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 // const DllReferencePlugin = require('webpack/lib/DllReferencePlugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
@@ -8,6 +7,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
+const optimizeCss = require('optimize-css-assets-webpack-plugin')
 
 const TerserPlugin = require('terser-webpack-plugin')
 
@@ -53,17 +53,25 @@ module.exports = merge(baseConfig, {
       chunkFilename: assetsPath('css/[id].[contenthash:6].css')
     }),
 
-    // new webpack.BannerPlugin({
-    //   banner: [
-    //     `@project: ${name}`,
-    //     `@author: ${author}`,
-    //     `@date: ${new Date()}`,
-    //     `@description: ${description}`,
-    //     `@version: ${version}`
-    //   ].join('\n'),
-    //   entryOnly: true,
-    //   exclude: /manifest|polyfill|styles/
-    // }),
+    new optimizeCss({
+      cssProcessor: require('cssnano'),
+      cssProcessorOptions: {
+        discardComments: { removeAll: true }
+      },
+      canPrint: true //是否将插件信息打印到控制台
+    }),
+
+    new webpack.BannerPlugin({
+      banner: [
+        `@project: ${name}`,
+        `@author: ${author}`,
+        `@date: ${new Date()}`,
+        `@description: ${description}`,
+        `@version: ${version}`
+      ].join('\n'),
+      entryOnly: true,
+      exclude: /manifest|polyfill|styles/
+    }),
 
     /**
      *  第一种方式：
@@ -83,7 +91,7 @@ module.exports = merge(baseConfig, {
      *   'react-dom': 'ReactDOM'
      *  }
      *
-     *  第三种方式
+     *  其他方式
      *  直接将入口和 react、react-dom混在一起, 并在入口按需引入相关依赖
      */
 

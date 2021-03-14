@@ -51,17 +51,16 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: [{ loader: 'babel-loader', options: {} }]
+        use: [{ loader: 'babel-loader' }]
       },
       {
         test: /\.css$/,
-        include: [/node_modules/, resolve('src/assets/styles')],
         use: [...globalCssHandlers]
       },
 
       {
-        test: /\.css$/,
-        exclude: [/node_modules/, resolve('src/assets/styles')],
+        test: /\.modules?.css$/,
+        exclude: [/node_modules/],
         use: [...localCssHandlers]
       },
 
