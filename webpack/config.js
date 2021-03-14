@@ -1,11 +1,11 @@
-const assetsSubDirectory = 'assets'
+const assetsSubDirectory = process.env.npm_config_asd || 'assets'
+const outputDir = process.env.npm_config_od || 'rainbow'
 
 module.exports = {
   assetsSubDirectory,
-  publicPath: '/rainbow/',
-  outputDir: 'rainbow',
+  publicPath: `/${outputDir}/`,
+  outputDir,
   report: process.env.npm_config_report,
-  gzipOn: false,
   externals: [
     {
       packageName: 'axios',
