@@ -23,8 +23,7 @@ const localCssHandlers = globalCssHandlers.map((handler, i) =>
             mode: 'local',
             localIdentName: isDev
               ? '[path][name]__[local]'
-              : '[name]--[hash:base64:5]',
-            context: resolve(__dirname, 'src')
+              : '[name]--[hash:base64:5]'
           }
         }
       }
@@ -65,17 +64,34 @@ module.exports = {
       },
 
       {
-        test: /\.less?$/,
-        include: [/node_modules/, resolve('src/assets/styles')],
-        use: [...globalCssHandlers, 'less-loader']
+        test: /[^modules?]\.less$/,
+        use: [
+          ...globalCssHandlers,
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                javascriptEnabled: true
+              }
+            }
+          }
+        ]
       },
-
       {
-        test: /\.less?$/,
-        exclude: [/node_modules/, resolve('src/assets/styles')],
-        use: [...localCssHandlers, 'less-loader']
+        test: /\.modules?\.less$/,
+        exclude: [/node_modules/],
+        use: [
+          ...localCssHandlers,
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                javascriptEnabled: true
+              }
+            }
+          }
+        ]
       },
-
       {
         test: /\.(woff|woff2|eot|ttf|otf|htc)$/,
         use: {
