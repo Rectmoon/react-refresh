@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack",
     "build:watch": "npm run build --watch",
-    "dll": "webpack --config ./build/webpack.dll.config.js"
+    "dll": "webpack --config webpack/webpack.dll.config.js"
   },
   "keywords": [],
   "author": "Rectmoon",
@@ -16,6 +16,7 @@
     "@babel/core": "^7.13.10",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-proposal-decorators": "^7.13.5",
+    "@babel/plugin-transform-runtime": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
     "@babel/preset-react": "^7.12.13",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",

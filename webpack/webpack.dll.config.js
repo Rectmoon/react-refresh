@@ -4,7 +4,6 @@ const webpack = require('webpack')
 module.exports = {
   mode: 'production',
   entry: {
-    vendors: ['lodash', 'jquery'],
     react: ['react', 'react-dom']
   },
   output: {
