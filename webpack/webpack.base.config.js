@@ -77,6 +77,7 @@ module.exports = {
           }
         ]
       },
+
       {
         test: /\.modules?\.less$/,
         exclude: [/node_modules/],
@@ -92,6 +93,7 @@ module.exports = {
           }
         ]
       },
+
       {
         test: /\.(woff|woff2|eot|ttf|otf|htc)$/,
         use: {
