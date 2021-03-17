@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack",
     "build:watch": "npm run build --watch",
-    "dll": "webpack --config webpack/webpack.dll.config.js"
+    "dll": "webpack --config webpack/webpack.config.dll.js"
   },
   "keywords": [],
   "author": "Rectmoon",
@@ -54,7 +54,6 @@
     "lodash": "^4.17.21",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "regenerator-runtime": "^0.13.7",
-    "ts-react-component": "^1.0.1"
+    "regenerator-runtime": "^0.13.7"
   }
 }

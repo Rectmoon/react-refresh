@@ -12,7 +12,7 @@ const optimizeCss = require('optimize-css-assets-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 const { name, author, description, version } = require('../package.json')
-const baseConfig = require('./webpack.base.config')
+const baseConfig = require('./webpack.config.base')
 const config = require('./config')
 
 const { resolve, assetsPath } = require('./utils')
