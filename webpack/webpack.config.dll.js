@@ -1,5 +1,6 @@
-const path = require('path')
 const webpack = require('webpack')
+
+const { resolve } = require('./utils')
 
 module.exports = {
   mode: 'production',
@@ -8,13 +9,14 @@ module.exports = {
   },
   output: {
     filename: '[name].dll.js',
-    path: path.resolve(__dirname, './dll'),
+    path: resolve('static/js/dll'),
     library: '[name]'
   },
   plugins: [
     new webpack.DllPlugin({
+      context: __dirname,
       name: '[name]',
-      path: path.resolve(__dirname, './dll/[name].manifest.json')
+      path: resolve('static/js/dll/[name].manifest.json')
     })
   ]
 }
