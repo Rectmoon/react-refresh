@@ -29,7 +29,7 @@ module.exports = merge(baseConfig, {
 
   output: {
     filename: assetsPath('js/[name].[chunkhash:6].min.js'),
-    chunkFilename: assetsPath('js/[name].[chunkhash:6].min.js'),
+    chunkFilename: assetsPath('js/[id].[chunkhash:6].min.js'),
     publicPath: config.publicPath,
     path: resolve(config.outputDir)
   },
